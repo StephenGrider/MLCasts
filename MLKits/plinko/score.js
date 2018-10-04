@@ -6,7 +6,12 @@ function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
 }
 
 function runAnalysis() {
-  const bucket = console.log('Your point will probably fall into', bucket);
+  const [testSet, trainingSet] = splitDataset(outputs, 10);
+
+  for (let i = 0; i < testSet.length; i++) {
+    const bucket = knn(trainingSet, testSet[i][0]);
+    console.log(bucket, testSet[i][3]);
+  }
 }
 
 function knn(data, point) {
