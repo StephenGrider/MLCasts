@@ -25,7 +25,7 @@ function knn(data, point, k) {
     .sortBy(row => row[0])
     .slice(0, k)
     .countBy(row => row[1])
-    .toPairs()
+    .toPairs()_.
     .sortBy(row => row[1])
     .last()
     .first()
@@ -34,7 +34,11 @@ function knn(data, point, k) {
 }
 
 function distance(pointA, pointB) {
-  return Math.abs(pointA - pointB);
+  return _.chain(pointA)
+    .zip(pointB)
+    .map(([a, b]) => (a - b) ** 2)
+    .sum()
+    .value() ** 0.5;
 }
 
 function splitDataset(data, testCount) {
