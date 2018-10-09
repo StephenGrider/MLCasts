@@ -11,6 +11,7 @@ function runAnalysis() {
   _.range(0, 3).forEach(feature => {
     const data = _.map(outputs, row => [row[feature], _.last(row)]);
     const [testSet, trainingSet] = splitDataset(minMax(data, 1), testSetSize);
+
     const accuracy = _.chain(testSet)
       .filter(
         testPoint =>
@@ -22,18 +23,6 @@ function runAnalysis() {
 
     console.log('For feature of', feature, 'accuracy is', accuracy);
   });
-}
-
-function runKnn(trainingSet, testSet) {
-  const accuracy = _.chain(testSet)
-    .filter(
-      testPoint => knn(trainingSet, _.initial(testPoint), k) === testPoint[3]
-    )
-    .size()
-    .divide(testSetSize)
-    .value();
-
-  console.log('For k of', k, 'accuracy is', accuracy);
 }
 
 function knn(data, point, k) {
