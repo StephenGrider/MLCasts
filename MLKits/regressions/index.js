@@ -15,4 +15,6 @@ const regression = new LinearRegression(features, labels, {
   iterations: 100
 });
 
-regression.gradientDescent();
+regression.train();
+
+console.log('Updated M is:', regression.m, 'Updated B is:', regression.b);

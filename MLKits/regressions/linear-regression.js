@@ -3,24 +3,42 @@ const _ = require('lodash');
 
 class LinearRegression {
   constructor(features, labels, options) {
-    this.features = tf.tensor(features);
-    this.labels = tf.tensor(labels);
-
-    this.features = this.features.concat(
-      tf.ones([this.features.shape[0], 1]),
-      1
-    );
+    this.features = features;
+    this.labels = labels;
 
     this.options = Object.assign(
       { learningRate: 0.1, iterations: 1000 },
       options
     );
 
-    this.weights = tf.ones([2, 1]);
+    this.m = 0;
+    this.b = 0;
   }
 
   gradientDescent() {
-    this.features.matMul(this.weights).print();
+    const currentGuessesForMPG = this.features.map(row => {
+      return this.m * row[0] + this.b;
+    });
+
+    const bSlope =
+      (_.sum(
+        currentGuessesForMPG.map((guess, i) => {
+          return guess - this.labels[i][0];
+        })
+      ) *
+        2) /
+      this.features.length;
+    const mSlope =
+      (_.sum(
+        currentGuessesForMPG.map((guess, i) => {
+          return this.features[i][0] * (guess - this.labels[i][0]);
+        })
+      ) *
+        2) /
+      this.features.length;
+
+    this.m = this.m - mSlope * this.options.learningRate;
+    this.b = this.b - bSlope * this.options.learningRate;
   }
 
   train() {
