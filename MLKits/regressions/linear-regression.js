@@ -26,6 +26,8 @@ class LinearRegression {
       .transpose()
       .matMul(differences)
       .div(this.features.shape[0]);
+
+    this.weights = this.weights.sub(slopes.mul(this.options.learningRate));
   }
 
   train() {
