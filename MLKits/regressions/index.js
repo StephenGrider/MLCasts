@@ -11,9 +11,8 @@ let { features, labels, testFeatures, testLabels } = loadCSV('./cars.csv', {
 });
 
 const regression = new LinearRegression(features, labels, {
-  learningRate: 0.001,
-  iterations: 1
+  learningRate: 0.0001,
+  iterations: 100
 });
 
-regression.train();
-console.log('M value is', regression.m, 'B value is', regression.b);
+regression.gradientDescent();
