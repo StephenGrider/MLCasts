@@ -11,7 +11,7 @@ class LinearRegression {
       options
     );
 
-    this.weights = tf.zeros([2, 1]);
+    this.weights = tf.zeros([this.features.shape[1], 1]);
   }
 
   gradientDescent() {
