@@ -19,6 +19,10 @@ const { features, labels, testFeatures, testLabels } = loadCSV(
 );
 
 const regression = new LogisticRegression(features, labels, {
-  learningRate: 0.01,
-  iterations: 5
+  learningRate: 0.5,
+  iterations: 100,
+  batchSize: 50
 });
+
+regression.train();
+regression.predict([[88, 97, 1.065]]).print();
