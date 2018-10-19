@@ -1,6 +1,7 @@
 require('@tensorflow/tfjs-node');
 const tf = require('@tensorflow/tfjs');
 const loadCSV = require('../load-csv');
+const LogisticRegression = require('./logistic-regression');
 
 const { features, labels, testFeatures, testLabels } = loadCSV(
   '../data/cars.csv',
@@ -17,4 +18,7 @@ const { features, labels, testFeatures, testLabels } = loadCSV(
   }
 );
 
-console.log(labels);
+const regression = new LogisticRegression(features, labels, {
+  learningRate: 0.01,
+  iterations: 5
+});
