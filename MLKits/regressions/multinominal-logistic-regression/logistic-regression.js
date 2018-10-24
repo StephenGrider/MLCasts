@@ -104,26 +104,28 @@ class LogisticRegression {
   }
 
   recordCost() {
-    const guesses = this.features.matMul(this.weights).sigmoid();
+    const cost = tf.tidy(() => {
+      const guesses = this.features.matMul(this.weights).sigmoid();
 
-    const termOne = this.labels.transpose().matMul(guesses.log());
+      const termOne = this.labels.transpose().matMul(guesses.log());
 
-    const termTwo = this.labels
-      .mul(-1)
-      .add(1)
-      .transpose()
-      .matMul(
-        guesses
-          .mul(-1)
-          .add(1)
-          .log()
-      );
+      const termTwo = this.labels
+        .mul(-1)
+        .add(1)
+        .transpose()
+        .matMul(
+          guesses
+            .mul(-1)
+            .add(1)
+            .log()
+        );
 
-    const cost = termOne
-      .add(termTwo)
-      .div(this.features.shape[0])
-      .mul(-1)
-      .get(0, 0);
+      return termOne
+        .add(termTwo)
+        .div(this.features.shape[0])
+        .mul(-1)
+        .get(0, 0);
+    });
 
     this.costHistory.unshift(cost);
   }
