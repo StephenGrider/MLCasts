@@ -6,7 +6,7 @@ function knn(features, labels, predictionPoint, k) {
   const { mean, variance } = tf.moments(features, 0);
 
   const scaledPrediction = predictionPoint.sub(mean).div(variance.pow(0.5));
-
+//could have added just the array() function but that's async and would have needed await
   return (
     features
       .sub(mean)
@@ -18,9 +18,9 @@ function knn(features, labels, predictionPoint, k) {
       .expandDims(1)
       .concat(labels, 1)
       .unstack()
-      .sort((a, b) => (a.get(0) > b.get(0) ? 1 : -1))
+      .sort((a, b) => (a.arraySync()[0] > b.arraySync()[0] ? 1 : -1))//sort the array based on the 0th value in each tensor
       .slice(0, k)
-      .reduce((acc, pair) => acc + pair.get(1), 0) / k
+      .reduce((accumulator,tensor)=>accumulator+tensor.arraySync()[1],0)/k//add along the second column or the 1th element of each tensor and divide it by k
   );
 }
 
