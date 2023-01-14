@@ -70,7 +70,7 @@ function minMax(data, featureCount) {
     const max = _.max(column);
 
     for (let j = 0; j < clonedData.length; j++) {
-      clonedData[j][i] = (clonedData[j][i] - min) / (max - min);
+      clonedData[j][i] = (clonedData[j][i] - min) / (max - min == 0 ? 1 : max - min);
     }
   }
 
